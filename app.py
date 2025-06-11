@@ -25,8 +25,11 @@ if uploaded_files:
         "応募率 (AR)": "mean"
     }).reset_index()
 
-    # 応募率0を除外
-    df_grouped = df_grouped[df_grouped["応募率 (AR)"] > 0].copy()
+    # 応募率が0のデータを除外
+    df_grouped = df_grouped[df_grouped['応募率 (AR)'] > 0].copy()
+
+    # マスターキーの求人データ用にクリック率が高すぎるデータを削除する
+    df_grouped = df_grouped[df_grouped['クリック率（CTR）'] < 0.25].copy()
 
     # 線形回帰で分類
     X = df_grouped[["クリック率（CTR）"]].values
